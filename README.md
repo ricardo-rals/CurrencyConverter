@@ -1,5 +1,6 @@
 # Currency Converter
 ![Java Version](https://img.shields.io/badge/Java-17-blue)
+![License](https://img.shields.io/github/license/ricardo-rals/CurrencyConverter)
 
 Este é um projeto de conversor de moedas em Java, que utiliza a Exchange Rate API para obter taxas de câmbio atualizadas. O programa permite que os usuários convertam valores entre diferentes moedas e mantém um histórico das conversões realizadas.
 
