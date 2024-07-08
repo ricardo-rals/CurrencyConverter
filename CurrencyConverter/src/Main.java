@@ -3,7 +3,7 @@ import Service.ApiExchangeRateService;
 import Service.ConversionService;
 import Service.ExchangeRateService;
 import Ui.UserInterface;
-
+import java.time.LocalDateTime;
 import java.io.IOException;
 import java.util.*;
 
@@ -14,6 +14,7 @@ public class Main {
         ConversionService conversionService = new ConversionService();
         UserInterface userInterface = new UserInterface();
         List<String> conversionHistory = new ArrayList<>();
+        List<String> conversionLogs = new ArrayList<>();
 
         String baseCurrency = userInterface.getCurrencyFromUser("Informe a moeda base: ").toUpperCase();
         while (!initialCurrencies.contains(baseCurrency)) {
@@ -27,10 +28,10 @@ public class Main {
 
                 switch (option) {
                     case 1:
-                        handleConversion(userInterface, conversionService, exchangeRateService, baseCurrency, conversionHistory, true);
+                        handleConversion(userInterface, conversionService, exchangeRateService, baseCurrency, conversionHistory, conversionLogs,true);
                         break;
                     case 2:
-                        handleConversion(userInterface, conversionService, exchangeRateService, baseCurrency, conversionHistory, false);
+                        handleConversion(userInterface, conversionService, exchangeRateService, baseCurrency, conversionHistory, conversionLogs, false);
                         break;
                     case 3:
                         userInterface.displayHistory(conversionHistory);
@@ -42,6 +43,9 @@ public class Main {
                         userInterface.displayExchangeRates(exchangeRateService.getExchangeRates(baseCurrency));
                         break;
                     case 6:
+                        displayConversionLogs(userInterface, conversionLogs);
+                        break;
+                    case 7:
                         System.out.println("Saindo do programa...");
                         return;
                     default:
@@ -56,7 +60,7 @@ public class Main {
 
     private static void handleConversion(UserInterface userInterface, ConversionService conversionService,
                                          ExchangeRateService exchangeRateService, String baseCurrency,
-                                         List<String> conversionHistory, boolean toTargetCurrency) throws IOException, InterruptedException {
+                                         List<String> conversionHistory,List<String> conversionLogs, boolean toTargetCurrency) throws IOException, InterruptedException {
         ExchangeRates exchangeRates = exchangeRateService.getExchangeRates(baseCurrency);
         userInterface.displayCurrencies(new ArrayList<>(exchangeRates.getRates().keySet()));
 
@@ -79,6 +83,10 @@ public class Main {
             conversionLog = String.format("%.2f %s equivale a %.2f %s", amount, currency, convertedAmount, exchangeRates.getBase());
         }
 
+        LocalDateTime timestamp = LocalDateTime.now();
+        String fullLog = String.format("[%s] - %s", timestamp, conversionLog);
+        conversionLogs.add(fullLog);
+
         conversionHistory.add(conversionLog);
         userInterface.displayConversionResult(conversionLog);
     }
@@ -93,5 +101,13 @@ public class Main {
         for (String currency : initialCurrencies) {
             System.out.println(currency);
         }
+    }
+
+    private static void displayConversionLogs(UserInterface userInterface, List<String> conversionLogs) {
+        System.out.println("### Registros de Conversão ###");
+        for (String log : conversionLogs) {
+            System.out.println(log);
+        }
+        System.out.println("#############################");
     }
 }

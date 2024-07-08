@@ -17,7 +17,8 @@ public class UserInterface {
         System.out.println("3. Ver histórico de conversões");
         System.out.println("4. Adicionar nova moeda");
         System.out.println("5. Exibir taxas de câmbio");
-        System.out.println("6. Sair");
+        System.out.println("6. Exibir Log com datas");
+        System.out.println("7. Sair");
         System.out.print("Escolha uma opção: ");
         return scanner.nextInt();
     }
