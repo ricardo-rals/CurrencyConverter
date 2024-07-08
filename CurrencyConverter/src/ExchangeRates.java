@@ -1,6 +1,8 @@
+import java.util.Map;
+
 public class ExchangeRates {
     private String base_code;
-    private ConversionRates conversion_rates;
+    private Map<String, Double> rates;
 
     public String getBase_code() {
         return base_code;
@@ -10,51 +12,19 @@ public class ExchangeRates {
         this.base_code = base_code;
     }
 
-    public double getARS() {
-        return conversion_rates.ARS;
+    public Map<String, Double> getRates() {
+        return rates;
     }
 
-    public void setARS(double ARS) {
-        this.conversion_rates.ARS = ARS;
+    public void setRates(Map<String, Double> rates) {
+        this.rates = rates;
     }
 
-    public double getBOB() {
-        return conversion_rates.BOB;
-    }
-
-    public void setBOB(double BOB) {
-        this.conversion_rates.BOB = BOB;
-    }
-
-    public double getBRL() {
-        return conversion_rates.BRL;
-    }
-
-    public void setBRL(double BRL) {
-        this.conversion_rates.BRL = BRL;
-    }
-
-    public double getCLP() {
-        return conversion_rates.CLP;
-    }
-
-    public void setCLP(double CLP) {
-        this.conversion_rates.CLP = CLP;
-    }
-
-    public double getCOP() {
-        return conversion_rates.COP;
-    }
-
-    public void setCOP(double COP) {
-        this.conversion_rates.COP = COP;
-    }
-
-    static class ConversionRates {
-        private double ARS;
-        private double BOB;
-        private double BRL;
-        private double CLP;
-        private double COP;
+    public double convertFromUSD(double amount, String targetCurrency) {
+        if (rates == null || !rates.containsKey(targetCurrency)) {
+            throw new IllegalArgumentException("Moeda alvo inválida: " + targetCurrency);
+        }
+        double rate = rates.get(targetCurrency);
+        return amount * rate;
     }
 }
