@@ -21,10 +21,7 @@ public class ExchangeRates {
     }
 
     public double convertFromUSD(double amount, String targetCurrency) {
-        if (rates == null || !rates.containsKey(targetCurrency)) {
-            throw new IllegalArgumentException("Moeda alvo inválida: " + targetCurrency);
-        }
-        double rate = rates.get(targetCurrency);
-        return amount * rate;
+        Double rate = rates.get(targetCurrency);
+        return rate != null ? amount * rate : 0;
     }
 }

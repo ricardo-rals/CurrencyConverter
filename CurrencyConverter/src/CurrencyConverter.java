@@ -15,7 +15,7 @@ public class CurrencyConverter {
     private static final String API_URL = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/USD";
     private static final String[] CURRENCIES = {"USD", "ARS", "BOB", "BRL", "CLP", "COP"};
 
-    public ExchangeRates getExchangeRates(String baseCurrency) throws IOException, InterruptedException {
+    public ExchangeRates getExchangeRates() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
